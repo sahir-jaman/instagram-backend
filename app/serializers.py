@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from app.models import User
+from app.models import Post
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,19 +26,19 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 
-# class PostSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Post
-#         fields = "__all__"
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = "__all__"
 
-#     title = serializers.CharField()
-#     description = serializers.CharField()
-#     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    title = serializers.CharField()
+    description = serializers.CharField()
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
-#     def update(self, instance, validated_data):
-#         print(validated_data)
-#         if instance.user.id == validated_data["user"].id:
-#             return super().update(instance, validated_data)
+    def update(self, instance, validated_data):
+        print(validated_data)
+        if instance.user.id == validated_data["user"].id:
+            return super().update(instance, validated_data)
 
 # class CommentSerializer(serializers.ModelSerializer):
 #     class Meta:
