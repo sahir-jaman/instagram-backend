@@ -26,3 +26,21 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
+class PostLike(models.Model):
+    post = models.ForeignKey(Post, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (("post", "user"), )
+
+class PostComment(models.Model):
+    comment_text = models.CharField(max_length=264)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, null=False, on_delete=models.CASCADE)
+
+class UserFollow(models.Model):
+    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE, related_name="src_follow")
+    follows = models.ForeignKey(User, null=False, on_delete=models.CASCADE, related_name="dest_follow")
